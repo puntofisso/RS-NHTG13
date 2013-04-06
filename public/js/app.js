@@ -49,7 +49,7 @@ function performGeocode(location) {
   geocoder.geocode( { 'latLng': location }, function(results, status) {
 
     $('#outputdata').html('');
-
+    var postcode;
     if (status == google.maps.GeocoderStatus.OK) {
     
       // TODO: examine the results param, determine the appropriate region data
@@ -58,7 +58,7 @@ function performGeocode(location) {
       // TODO: filter for an administrative_area_level_2 political type, and then just use that
       for (var i = 0; i < results.length; i++) {
         var result = results[i];
-        
+      
         var address_components = result.address_components;
         for (var j = 0; j < address_components.length; j++) {
           var address_component = address_components[j];
@@ -66,17 +66,19 @@ function performGeocode(location) {
           var txt = address_component.short_name + ', ' + address_component.long_name + ':';
           for (var k = 0; k < address_component.types.length; k++) {
             var type = address_component.types[k];
+            if(type=='postal_code' && address_component.types.length == 1) {
+                postcode = address_component.long_name;             
+            }
             txt = txt + type + ' ';
-          }
-          
-          $('#outputdata').append('<p>' + txt + '</p>');
+          }                    
         }
       }
-      
+      // make API call using postcode
+      console.log(postcode);
+         
       // set the map to show the region selected
       map.setZoom(8);
       map.panTo(location);
-      
     } else {
       alert("Geocode was not successful for the following reason: " + status);
     }
