@@ -20,12 +20,28 @@
 //print $ret;
 
 
+function getAuthorityFromPostcode($postcode) {
+	return "K02000001";
+}
+
 function getSatisfaction($postcode) {
-	return 100;
+	$authority=getAuthorityFromPostcode($postcode);
+	$query="SELECT average FROM happiness WHERE code='$authority'";
+	$res = mySQLquery($query);
+
+	
+      while($row = mysql_fetch_array( $res )) {
+                $average = $row[0];
+		return $average;
+ 	 }
+
 }
 
 function mySQLquery($query) {
-	include('../../config/config.php');
+$DB_HOST="localhost";
+$DB_USER="nhtg";
+$DB_PASS="5WZvTbwQXLPxdQc2";
+$DB_NAME="nhtg13";
 mysql_connect($DB_HOST, $DB_USER, $DB_PASS) or die(mysql_error()." | HOST ".$DB_HOST." USER ".$DB_USER." PASS ".$DB_PASS ." NAME ".$DB_NAME." | Error on connect ");
 mysql_select_db($DB_NAME) or die(mysql_error()." | HOST ".$DB_HOST." USER ".$DB_USER." PASS ".$DB_PASS ." NAME ".$DB_NAME." | Error on select db ");
 
