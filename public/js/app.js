@@ -76,12 +76,12 @@ function performGeocode(location) {
       //console.log(postcode);
 
       var data = {
-            labels : ["National Average","Local"],
+            labels : ["Crime","Life expectancy", "Happiness"],
             datasets : [
                 {
                     fillColor : "rgba(220,220,220,0.5)",
                     strokeColor : "rgba(220,220,220,1)",
-                    data : [75, 21]
+                    data : [75, 21, 62]
                 }
             ]
      };
@@ -102,4 +102,25 @@ function performGeocode(location) {
 function drawHappiness(selector, data, options) {
     var ctx = document.getElementById(selector).getContext('2d');
     var happinessChart = new Chart(ctx).Bar(data, options);
+}
+
+
+function showRandomBio() {
+    var members = [
+        ['diogo.jpg', ""],
+        ['Gideon.jpg', ""],
+        ['giuseppe.jpg', ""],
+        ['seyi.png', ""],
+        ['Mark.jpg', ""],
+        ['sharon.jpg', ""],
+        ['hadley.jpg', ""],
+        ['Lewis.jpeg', ""]
+    ];
+}
+
+function updateHeadline(headline){
+    var $headlineEl = $('.headline div div h1');
+    $headlineEl.text(headline);
+    $headlineEl.css('font-size', '80px')
+    $('.headline div div p').text('');
 }
