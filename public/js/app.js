@@ -1,4 +1,4 @@
-var centre_UK = new google.maps.LatLng(54.622978, -3.537598);
+var centre_UK = new google.maps.LatLng(52.922978, -3.537598);
 var london_UK = new google.maps.LatLng(51.5171, -0.1062);
 
 var map;
@@ -69,13 +69,27 @@ function performGeocode(location) {
             if(type=='postal_code' && address_component.types.length == 1) {
                 postcode = address_component.long_name;             
             }
-            txt = txt + type + ' ';
           }                    
         }
       }
       // make API call using postcode
-      console.log(postcode);
-         
+      //console.log(postcode);
+
+      var data = {
+            labels : ["National Average","Local"],
+            datasets : [
+                {
+                    fillColor : "rgba(220,220,220,0.5)",
+                    strokeColor : "rgba(220,220,220,1)",
+                    data : [75, 21]
+                }
+            ]
+     };
+
+     var options = { barShowStroke : true };
+
+     drawHappiness('happiness', data, options);
+
       // set the map to show the region selected
       map.setZoom(8);
       map.panTo(location);
@@ -85,3 +99,7 @@ function performGeocode(location) {
   });
 }
 
+function drawHappiness(selector, data, options) {
+    var ctx = document.getElementById(selector).getContext('2d');
+    var happinessChart = new Chart(ctx).Bar(data, options);
+}

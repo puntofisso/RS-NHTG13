@@ -7,10 +7,7 @@
 
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/bootstrap-responsive.css" rel="stylesheet" />
-    <style>
-        html { height: 100%; }
-        body { height: 100%; padding-top: 60px; }
-    </style>
+    <link href="css/app.css" rel="stylesheet" />
     
     <script src="js/jquery-1.9.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
@@ -22,6 +19,7 @@
 
   <body>
 
+<!--
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
@@ -36,38 +34,57 @@
               <li class="active"><a href="#">Home</a></li>
               <li><a href="#about">Team</a></li>
             </ul>
-          </div><!--/.nav-collapse -->
+          </div>
         </div>
       </div>
     </div>
-
-    <div class="container">
+-->
+    <div class="container content">
 
         <div class="row-fluid">
-            <div class="span6">
-                
-                <img src="images/Daily_Moan_trimmed.png" style="width: 300px; height: auto;" />
-                
-                <p>
-                    With the economy still struggling, are Britons really happy?
-                </p>
-    
-                <p>
-                    And what makes them unhappy? Here we've pulled together a range
-                    of sources to see where people are happiest, and what events
-                    or policy changes their mood.
-                </p>
-                
-                <p>
-                    <b>Select a region by dragging the pointer on the map.</b>
-                </p>
-                
-                <p>
-                  <span id="outputdata"></span>
-                </p>
-    
-            </div>
-            <div class="span6" id="map_canvas" style="height: 700px;">
+            <div class="span12">
+                <div class="">
+                    <div class="logo">
+                        <img src="images/Daily_Moan_trimmed.png" />
+                    </div>
+                    <div class="banner">
+                        <img src="images/banner.png">
+                    </div>
+                    <div class="wrap">
+                        <div class="top">
+                            <div class="headline">
+                                <div class=""> 
+                                    <div>
+                                        <h1>With the economy still struggling, are Britons really happy?</h1> 
+                                        <p>And what makes them unhappy? Here we've pulled together a
+                                        range of sources to see where people are happiest, and what events
+                                        or policy changes their mood.</p>                   
+                                        <p><b>Select a region by dragging the pointer on the map.</b></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sideimage">
+                                <div id="map_canvas">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="data">
+                            <div id="charts">
+                                <canvas id="happiness" width="660" height="400"></canvas>
+                            </div>
+                            <div id="team">
+                                <img src="images/team_1.png">
+                                <div class="bio">
+                                    <p>Lorem ipsum dolor amet</p>
+                                </div>
+                                <div class="link">
+                                    <a href="/about.php">Turn to the about page</a>
+                                </div>
+                            </div>
+                        </div
+                    </div>
+                </div>
             </div>
         </div>
     
