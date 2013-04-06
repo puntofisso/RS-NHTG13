@@ -15,7 +15,33 @@ class Satisfaction {
     }
 }
 
+class Crime {
+    function get($latlong) {
+      $res = getCrime($latlong);
+      echo $res;
+    }
+}
+
+class Life {
+    function get($postcode) {
+      $res = getLife($postcode);
+      echo $res;
+    }
+}
+
+class Headline {
+    function get($postcode,$lat,$lon) {
+      $res = getHeadline($postcode,$lat,$lon);
+      echo $res;
+    }
+}
+
+
 Toro::serve(array(
     "/" => "RootHandler",
     "/getSatisfaction/:alpha" => "Satisfaction",
+    "/getCrime/:alpha:alpha" => "Crime",
+    "/getLife/:alpha" => "Life",
+    "/getHeadline/:alpha/:alpha/:alpha" => "Headline",
 ));
+?>

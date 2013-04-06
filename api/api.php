@@ -18,22 +18,124 @@
 
 //header('Access-Control-Allow-Origin: *');
 //print $ret;
-
-
-function getAuthorityFromPostcode($postcode) {
-	return "K02000001";
+include("api2.php");
+function existText($val) {
+	if ($val)
+		return true;
+	else return false;
 }
 
-function getSatisfaction($postcode) {
-	$authority=getAuthorityFromPostcode($postcode);
-	$query="SELECT average FROM happiness WHERE code='$authority'";
-	$res = mySQLquery($query);
+function getLife($postcode) {
 
+	$query = "SELECT country, countycode, districtcode from postcodes where postcode='$postcode'";
+	$res = mySQLquery($query);
+	$out = array();
+	$searchstring="";
+	while ($row =mysql_fetch_assoc($res)) {
+		$out["country"] = '"'. $row["country"] .'"';
+		$out["county"] = '"'.$row["countycode"].'"';;
+		$out["district"] ='"'. $row["districtcode"].'"';;
+
+
+	}
+
+	$sec = array_filter($out, "existText");
+	$second = implode(",", $sec);
+	$query = "SELECT max(life) FROM lifeexpectancy l WHERE l.gss in ($second)";
+	$res = mySQLquery($query);
+	while ($row = mysql_fetch_array($res)) {
+
+		$life = $row[0];
+	}
+	return $life;
+
+
+}
+
+function getHeadline($queryval,$lat,$lon) {
 	
-      while($row = mysql_fetch_array( $res )) {
-                $average = $row[0];
-		return $average;
- 	 }
+	
+
+	// max & min Life
+	$maxLife = 69.0;
+	$minLife = 58.3;
+	$maxHapp = 8.10;
+	$minHapp = 7.09;
+	// TODO modify to get runtime values
+
+	$life = getLife($queryval);
+	$happy = getSatisfaction($queryval);
+	$normalisedCrime = getCrime("$lat,$lon");
+
+	$normalisedLife = ($life-58.3)*1000/11.7;
+	$normalisedHappy = ($happy-7.09)*1000/11.01;
+
+
+	$lifethres = abs($normalisedLife-500);
+	$happythres = abs($normalisedHappy-500);
+	$crimethres = abs($normalisedCrime-250);
+
+	$max = $lifethres;
+	$winner = "life";
+	$sign = "";
+	
+	if ($normalisedLife > 500) 
+		$sign = "SOARING";
+	else 
+		$sign = "ROCK BOTTOM";
+	
+	if ($happythres > $max) {
+		$max = $happythres;
+		$winner = "happiness";
+
+		if ($normalisedHappy > 500)
+                $sign = "SOARING";
+        		else
+                $sign = "ROCK BOTTOM";
+
+	}
+
+	if ($crimethres > $max) {
+		$max = $crimethres;
+		$winner = "crime";
+
+		if ($normalisedCrime < 250)
+                $sign = "SOARING";
+        else
+                $sign = "ROCK BOTTOM";
+
+	}
+	$force = getForce("$lat,$lon");
+
+	return "$force $winner $sign,$life,$happy,$normalisedCrime";
+
+}
+
+
+
+function getSatisfaction($postcode) {
+
+        $query = "SELECT country, countycode, districtcode from postcodes where postcode='$postcode'";
+        $res = mySQLquery($query);
+        $out = array();
+        $searchstring="";
+        while ($row =mysql_fetch_assoc($res)) {
+                $out["country"] = '"'. $row["country"] .'"';
+                $out["county"] = '"'.$row["countycode"].'"';;
+                $out["district"] ='"'. $row["districtcode"].'"';;
+
+
+        }
+
+        $sec = array_filter($out, "existText");
+        $second = implode(",", $sec);
+        $query = "SELECT max(average) FROM happiness l WHERE l.code in ($second)";
+        $res = mySQLquery($query);
+        while ($row = mysql_fetch_array($res)) {
+
+                $life = $row[0];
+        }
+        return $life;
 
 }
 
@@ -47,10 +149,6 @@ mysql_select_db($DB_NAME) or die(mysql_error()." | HOST ".$DB_HOST." USER ".$DB_
 
 $result = mysql_query("$query") or die(mysql_error()." | HOST ".$DB_HOST." USER ".$DB_USER." PASS ".$DB_PASS ." NAME ".$DB_NAME. " | Error on query " );  
 
-// keeps getting the next row until there are no more to get
-#while($row = mysql_fetch_array( $result )) {
-#	// Print out the contents of each row into a table
-#}
 return $result; 
 }
 

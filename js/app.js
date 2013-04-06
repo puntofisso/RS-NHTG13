@@ -81,7 +81,7 @@ function performGeocode(location) {
                   + postcode.replace(/\s+/g, '') + '/' + location.jb + '/'+  location.kb, 
          success: function(result) {
 	              var arr = result.split(',');
-			//console.log(location);
+			console.log(location);
 			console.log(arr);	
 		      var data = {
 			    labels : ["Crime","Life expectancy", "Happiness"],
@@ -89,15 +89,14 @@ function performGeocode(location) {
 				{
 				    fillColor : "rgba(220,220,220,0.5)",
 				    strokeColor : "rgba(220,220,220,1)",
-				    data : [parseInt(arr[3]), parseInt(arr[1]), parseInt(arr[2])]
+				    data : result.data
 				}
 			    ]
 		     };
 
     	             var options = { barShowStroke : true };
                      drawHappiness('happiness', data, options);
-		     updateHeadline(arr[0]);
-		     showRandomBio();
+		     updateHeadline(data.headline);
                   },
          async:   false
     });          
@@ -135,7 +134,7 @@ function showRandomBio() {
     $teamDiv.empty();
     $teamDiv.append('<img src="images/'+ image +'">');
     $teamDiv.append('<p>'+ bio +'</p>');
-    $teamDiv.append('<a href="http://hacks.rewiredstate.org/events/nhtg-13/daily-moan">Turn to the team page</a>');
+    $teamDiv.append('<a href="/about/">');
 }
 
 function updateHeadline(headline){
