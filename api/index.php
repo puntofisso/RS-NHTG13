@@ -1,5 +1,6 @@
 <?
 include("api.php");
+include("api2.php");
 require("Toro.php");
 
 class RootHandler {
@@ -15,7 +16,15 @@ class Satisfaction {
     }
 }
 
+class Crime {
+    function get($postcode) {
+      $res = getCrime($postcode);
+      echo $res;
+    }
+}
+
 Toro::serve(array(
     "/" => "RootHandler",
     "/getSatisfaction/:alpha" => "Satisfaction",
+    "/getCrime/:alpha" => "Crime",
 ));
