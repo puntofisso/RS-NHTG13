@@ -104,7 +104,6 @@ function drawHappiness(selector, data, options) {
     var happinessChart = new Chart(ctx).Bar(data, options);
 }
 
-
 function showRandomBio() {
     var members = [
         ['diogo.jpg', ""],
@@ -116,6 +115,15 @@ function showRandomBio() {
         ['hadley.jpg', ""],
         ['Lewis.jpeg', ""]
     ];
+    var member = members[Math.floor(Math.random() * members.length)];
+    var image = member[0];
+    var bio = member[1];
+
+    var $teamDiv = $('#team');
+    $teamDiv.empty();
+    $teamDiv.append('<img src="images/'+ image +'">');
+    $teamDiv.append('<p>'+ bio +'</p>');
+    $teamDiv.append('<a href="/about/">');
 }
 
 function updateHeadline(headline){

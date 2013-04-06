@@ -81,3 +81,7 @@ body { height: 100%; padding-top: 30px; }
     clear: both;
     display: block;
 }
+
+#team img {
+    width: 450px;
+}
