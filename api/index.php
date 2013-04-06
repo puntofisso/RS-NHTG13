@@ -10,7 +10,8 @@ class RootHandler {
 
 class Satisfaction {
     function get($postcode) {
-      echo "200";
+      $res = getSatisfaction($postcode);
+      echo $res;
     }
 }
 
